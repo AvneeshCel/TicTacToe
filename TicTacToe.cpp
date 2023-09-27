@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <stdexcept>
 using namespace std;
 
 string* square;
@@ -57,28 +58,21 @@ int main()
 
 		//if ((choice >= 1 && choice <= size) && (stoi(square[choice])) == (choice)) { square[choice] = symbol; }
 
-		if (choice >= 0 && choice <= size) {
-			try {
-				if (square[choice-1] == to_string(choice)) {
-					square[choice-1] = symbol;
+		try {
+			if (choice >= 0 && choice <= size) {
+				if (square[choice - 1] == to_string(choice)) {
+					square[choice - 1] = symbol;
 				}
 				else {
-					cout << "Invalid Move";
-					player--;
-					cin.ignore();
-					cin.get();
+					throw out_of_range("Invalid Move"); 
 				}
 			}
-			catch (const std::exception& e) {
-				cout << "Invalid Move";
-				player--;
-				cin.ignore();
-				cin.get();
+			else {
+				throw out_of_range("Invalid Move"); 
 			}
 		}
-		else
-		{
-			cout << "Invalid Move";
+		catch (const out_of_range& e) {
+			cout << e.what(); 
 			player--;
 			cin.ignore();
 			cin.get();
@@ -97,6 +91,7 @@ int main()
 	cin.ignore();
 	cin.get();
 
+	delete[] square;
 	return 0;
 }
 
