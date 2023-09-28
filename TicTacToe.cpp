@@ -13,6 +13,8 @@ int WinCheck();
 void FillArray(int size);
 int rows = 3;
 void Board();
+int maxChar;
+int BoardVisualHelper(int size);
 
 
 int main()
@@ -25,6 +27,8 @@ int main()
 
 	cout << "Enter a board size: ";
 	cin >> size;
+	
+	maxChar = BoardVisualHelper(size);
 	
 
 	while (sqrt(size) - floor(sqrt(size)) != 0)
@@ -50,7 +54,7 @@ int main()
 		Board();
 		player = (player % 2) ? 1 : 2;
 
-		cout << "Player" << player << ", enter a number: ";
+		cout << "Player" << " " << player << ", enter a number: ";
 		cin >> choice;
 
 		symbol = (player == 1) ? "X" : "O";
@@ -101,8 +105,8 @@ int WinCheck()
 		{
 			if (WinBoardCondition(k, rows) == 1) return 1;
 		}
-			if (DiagonalWin(0,3,4) == 1) return 1; 
-			if (DiagonalWin(rows - 1,3,2) == 1) return 1; 
+			if (DiagonalWin(0,3,rows + 1) == 1) return 1; 
+			if (DiagonalWin(rows - 1,3, rows - 1) == 1) return 1; 
 
 
     return -1;
@@ -188,16 +192,25 @@ void Board()
 	system("cls");
 	cout << "\n\n\tTic Tac Toe\n\n";
 
-	cout << "Player 1 (X)  - Player 2 (O)" << endl << endl;
+	cout << "Player 1 (X)  - Player 2 (O)" << endl;
 	cout << endl;
 
-	cout << "  ";
+	//cout << "  ";
 
 	for (int temp = 1; temp <= rows; temp++)
 	{
-		cout << " _____";
+		size_t temp2 = square[temp - 1].length();
 
-	} cout << endl;
+		if (temp == 1) cout << "  _";
+		else cout << "_ _";
+
+		for (int l = 0; l < maxChar; l++)
+		{
+			cout << "_";
+		}
+
+	} cout << "_" << endl;
+
 
 	int k = 0;
 	for (int i = 1; i <= rows; i++)
@@ -205,23 +218,45 @@ void Board()
 
 		for (int j = k; j <= k + rows - 1; j++)
 		{
-			cout << "  |  " << square[j];
+			int temp = square[j].length();
+
+			cout << " | " << square[j];
+
+			for (int l = 0; l < maxChar - temp ;l++)
+			{
+				cout << " ";
+			}
 		}
 
-		cout << "  |" << endl;
+		cout << " |" << endl;
 
-		cout << "  ";
+		//cout << "  ";
 
 		for (int temp = 1; temp <= rows; temp++)
 		{
-			cout << " _____";
+			size_t temp2 = square[temp - 1].length();
 
-		} cout << endl;
+			if (temp == 1) cout << "  _";
+			else cout << "_ _";
+
+			for (int l = 0; l < maxChar; l++)
+			{
+				cout << "_";
+			}
+
+		} cout << "_" << endl;
 
 		k += rows;
 	}
+
+	cout << endl;
 }
 
+int BoardVisualHelper(int size)
+{
+	string temp = to_string(size);
+	return temp.length();
+}
 
 void FillArray(int size)
 {
